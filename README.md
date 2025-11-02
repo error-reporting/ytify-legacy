@@ -15,7 +15,7 @@
 </div>
 
 
-> [**ytify**](https://ytify.pp.ua) is the fastest (56KB to load) and the lightest (7.5K LOC only) centralised audio streaming web application built with an unprecedented hybrid [HTML + SolidJS] approach for maximum efficiency.
+> [**ytify-legacy**](https://error-reporting.github.io/ytify-legacy/) is the fastest (56KB to load) and the lightest (7.5K LOC only) centralised audio streaming web application built with an unprecedented hybrid [HTML + SolidJS] approach for maximum efficiency.
 >  Listen to **Podcasts**, **Audiobooks**, **Music**, **Livestreams** and other Audio focused YouTube Videos, even under the lowest network conditions.
 
 > As covered in https://blog.csdn.net/gitblog_00024/article/details/139895018 and https://medevel.com/ytify-youtube/
@@ -50,34 +50,35 @@
 
 ## Usage 👆
 - Instance
-  - [Official](https://ytify.pp.ua)
+  - [Official](https://error-reporting.github.io/ytify-legacy)
+  - [Other](https://ytify.pp.ua)
   - [Secondary](https://ytify.netlify.app)
   - [Testing](https://dev--ytify.netlify.app)
-- Full Usage Guide is available at [wiki>usage](https://github.com/n-ce/ytify/wiki/usage)
+- Full Usage Guide is available at [wiki>usage](https://github.com/error-reporting/ytify-legacy/wiki/usage)
 - Join our Telegram Community [@ytifytg](https://t.me/ytifytg)
 - Join our Matrix Community
 [@ytify](https://matrix.to/#/#ytify:matrix.org)
 
 
 ## License 📝
-> [Read More](https://github.com/n-ce/ytify/blob/main/LICENSE).
+> [Read More](https://github.com/error-reporting/ytify-legacy/blob/main/LICENSE).
 
 ## Contributing 📋
-> This project is actively seeking contributors, [Read More Here](https://github.com/n-ce/ytify/blob/main/CONTRIBUTING.md).
+> This project is actively seeking contributors, [Read More Here](https://github.com/error-reporting/ytify-legacy/blob/main/CONTRIBUTING.md).
 
 ## Development 🔧
 1. Prerequisites : Node.js , Beginner TypeScript Knowledge. 
 2. Clone repository with
 ```
-git clone https://github.com/n-ce/ytify --depth 1
+git clone https://github.com/error-reporting/ytify-legacy --depth 1
 ```
 or
 ```
- gh repo clone n-ce/ytify -- --depth 1
+ gh repo clone error-reporting/ytify-legacy -- --depth 1
 ```
 3. Move to Directory, Update & Install Dependencies
 ```
-cd ytify ; npm run update; npm i
+cd ytify-legacy ; npm run update; npm i
 ```
 4. If you prefer using DevTools, you may disable eruda in [`vite.config.ts`](https://github.com/n-ce/ytify/blob/main/vite.config.ts)
 `injectEruda(false),`
@@ -86,7 +87,7 @@ cd ytify ; npm run update; npm i
 ```
 npm run dev -- --open
 ```
-6. Learn More at our [wiki](https://github.com/n-ce/ytify/wiki).
+6. Learn More at our [wiki](https://github.com/error-reporting/ytify-legacy/wiki).
 
 
 #### Vite building the project on my entry-level phone.
@@ -127,6 +128,7 @@ dist/assets/hls-CySapf1N.js                      399.85 kB │ gzip: 123.78 kB
 ytify is being translated into multiple languages using [Weblate](https://hosted.weblate.org/projects/ytify/web).
  
 ## Acknowledgements 🙏
+- [n-ce's original ytify](https://github.com/n-ce/ytify)
 - [Uma](https://github.com/n-ce/Uma) - Instances Manager
 - [Piped](https://github.com/teampiped/piped) - YouTube Data API & Adaptive Streaming Proxy
 - [Invidious](https://invidious.io) - YouTube Data API & Progressive Streaming Proxy
