@@ -50,8 +50,8 @@
 
 ## Usage 👆
 - Instance
-  - [Official](https://error-reporting.github.io/ytify-legacy)
-  - [Other](https://ytify.pp.ua)
+  - [My official](https://error-reporting.github.io/ytify-legacy)
+  - [Original](https://ytify.pp.ua)
   - [Secondary](https://ytify.netlify.app)
   - [Testing](https://dev--ytify.netlify.app)
 - Full Usage Guide is available at [wiki>usage](https://github.com/error-reporting/ytify-legacy/wiki/usage)
