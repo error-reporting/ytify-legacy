@@ -93,34 +93,69 @@ npm run dev -- --open
 #### Vite building the project on my entry-level phone.
 
 ```bash
-vite v6.0.11 building for production...
-✓ 56 modules transformed.
-dist/manifest.webmanifest                          1.00 kB
-dist/index.html                                   15.98 kB │ gzip:   4.12 kB
+vite v7.1.12 building for production...
+✓ 73 modules transformed.
+dist/manifest.webmanifest                          1.01 kB
+dist/index.html                                   15.88 kB │ gzip:   4.10 kB
 dist/assets/UpdatePrompt-BVWVWGFX.css              0.72 kB │ gzip:   0.40 kB
-dist/assets/ActionsMenu-CZvdWJ42.css               0.91 kB │ gzip:   0.45 kB
-dist/assets/Settings-tEADDnJ_.css                  2.25 kB │ gzip:   0.73 kB
-dist/assets/index--EX9VXLN.css                    20.68 kB │ gzip:   5.01 kB
-dist/assets/enqueueRelatedStreams-DdHTYd6g.js      0.35 kB │ gzip:   0.27 kB
-dist/assets/extractColorFromImage-Cxdm9n2W.js      0.62 kB │ gzip:   0.42 kB
-dist/assets/setAudioStreams-BVS_1Ljb.js            0.84 kB │ gzip:   0.56 kB
-dist/assets/setDiscoveries-TaEtEbHx.js             0.93 kB │ gzip:   0.54 kB
-dist/assets/virtual_pwa-register-CvOwgYno.js       0.96 kB │ gzip:   0.55 kB
-dist/assets/UpdatePrompt-D5n4sX3r.js               1.09 kB │ gzip:   0.62 kB
-dist/assets/supermix-BtwNGR11.js                   1.11 kB │ gzip:   0.68 kB
-dist/assets/importPipedPlaylists-B2u7XIyS.js       1.24 kB │ gzip:   0.60 kB
-dist/assets/Lyrics-zDQNW8E2.js                     1.24 kB │ gzip:   0.80 kB
-dist/assets/start-BQEMUpCE.js                      1.95 kB │ gzip:   1.06 kB
-dist/assets/partsManager-DmWC75D0.js               1.96 kB │ gzip:   0.67 kB
-dist/assets/WatchOnYtify-LiGdckDA.js               2.84 kB │ gzip:   1.22 kB
-dist/assets/ActionsMenu-BzqUfV6s.js                4.06 kB │ gzip:   1.72 kB
-dist/assets/workbox-window.prod.es5-DL_hIMXg.js    5.72 kB │ gzip:   2.36 kB
-dist/assets/en-D06fOH0-.js                        11.19 kB │ gzip:   3.67 kB
-dist/assets/pl-D1p_NQ5j.js                        11.99 kB │ gzip:   4.26 kB
-dist/assets/Settings-CBM8jAms.js                  13.25 kB │ gzip:   4.38 kB
-dist/assets/index-pbIhJqLG.js                     89.34 kB │ gzip:  32.19 kB
-dist/assets/hls-CySapf1N.js                      399.85 kB │ gzip: 123.78 kB
-✓ built in 9.51s
+dist/assets/ActionsMenu-DzB5kpEW.css               0.91 kB │ gzip:   0.44 kB
+dist/assets/Settings-BsMqzeb-.css                  2.23 kB │ gzip:   0.72 kB
+dist/assets/index-C1Z9-jfH.css                    20.65 kB │ gzip:   4.99 kB
+dist/assets/enqueueRelatedStreams-B2FO8_k3.js      0.43 kB │ gzip:   0.30 kB
+dist/assets/subfeedGenerator-zrZ56PyE.js           0.51 kB │ gzip:   0.36 kB
+dist/assets/extractColorFromImage-DK2Ht5t8.js      0.62 kB │ gzip:   0.42 kB
+dist/assets/setAudioStreams-CyKTI0py.js            0.67 kB │ gzip:   0.47 kB
+dist/assets/setDiscoveries-DX1nhzlG.js             0.87 kB │ gzip:   0.52 kB
+dist/assets/virtual_pwa-register-CbGQhOND.js       0.90 kB │ gzip:   0.53 kB
+dist/assets/UpdatePrompt-KOl6kybm.js               1.09 kB │ gzip:   0.62 kB
+dist/assets/supermix-BVM8E2di.js                   1.13 kB │ gzip:   0.70 kB
+dist/assets/Lyrics-DZxLGGB4.js                     1.24 kB │ gzip:   0.80 kB
+dist/assets/importPipedPlaylists-AwmTokZ0.js       1.27 kB │ gzip:   0.63 kB
+dist/assets/partsManager-CmgDs6sr.js               1.80 kB │ gzip:   0.63 kB
+dist/assets/start-DYKcDXuD.js                      1.97 kB │ gzip:   1.06 kB
+dist/assets/SuperCollectionList-CBOlBT4r.js        2.42 kB │ gzip:   1.22 kB
+dist/assets/WatchVideo-B92uvOCR.js                 3.49 kB │ gzip:   1.59 kB
+dist/assets/ActionsMenu-mMLUGy4H.js                4.05 kB │ gzip:   1.71 kB
+dist/assets/workbox-window.prod.es5-CwtvwXb3.js    5.76 kB │ gzip:   2.37 kB
+dist/assets/ro-nUjBmFtW.js                        10.39 kB │ gzip:   3.36 kB
+dist/assets/en-BIveIy_n.js                        12.04 kB │ gzip:   3.91 kB
+dist/assets/id-DM_U2fba.js                        12.41 kB │ gzip:   4.11 kB
+dist/assets/zh-D3QOo2GG.js                        12.48 kB │ gzip:   4.48 kB
+dist/assets/pt-V1C6oc5F.js                        12.76 kB │ gzip:   4.32 kB
+dist/assets/pl-DP0Vz_Gq.js                        12.78 kB │ gzip:   4.41 kB
+dist/assets/de-B9cmdEYi.js                        12.90 kB │ gzip:   4.36 kB
+dist/assets/es-CunG9DIh.js                        13.17 kB │ gzip:   4.37 kB
+dist/assets/fr-BJnGeARW.js                        13.19 kB │ gzip:   4.42 kB
+dist/assets/Settings-Dxs2zU7O.js                  14.22 kB │ gzip:   4.81 kB
+dist/assets/ar-BcR9583f.js                        14.54 kB │ gzip:   4.55 kB
+dist/assets/ur-BzdzHqxU.js                        14.68 kB │ gzip:   4.56 kB
+dist/assets/ru-CKckOVLt.js                        15.66 kB │ gzip:   4.92 kB
+dist/assets/hi-DrTvZ7fL.js                        17.16 kB │ gzip:   4.73 kB
+dist/assets/bn-BRHRJXny.js                        17.32 kB │ gzip:   4.84 kB
+dist/assets/sa-CPcZJgUt.js                        17.49 kB │ gzip:   4.69 kB
+dist/assets/index-D_Td6t-j.js                     90.07 kB │ gzip:  32.54 kB
+dist/assets/hls-BvDNz44n.js                      521.10 kB │ gzip: 161.18 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.39s
+error during build:
+Error: Unable to write the service worker file. 'Unexpected early exit. This happens when Promises returned by plugins cannot resolve. Unfinished hook action(s) on exit:
+(terser) renderChunk
+(terser) renderChunk'
+    at writeSWUsingDefaultTemplate (/data/data/com.termux/files/home/ytify-legacy/node_modules/workbox-build/build/lib/write-sw-using-default-template.js:68:15)
+    at async generateSW (/data/data/com.termux/files/home/ytify-legacy/node_modules/workbox-build/build/generate-sw.js:95:23)
+    at async generateServiceWorker (file:///data/data/com.termux/files/home/ytify-legacy/node_modules/vite-plugin-pwa/dist/index.js:208:23)
+    at async _generateSW (file:///data/data/com.termux/files/home/ytify-legacy/node_modules/vite-plugin-pwa/dist/index.js:234:5)
+    at async Object.handler (file:///data/data/com.termux/files/home/ytify-legacy/node_modules/vite-plugin-pwa/dist/index.js:427:13)
+    at async PluginDriver.hookParallel (file:///data/data/com.termux/files/home/ytify-legacy/node_modules/rollup/dist/es/shared/node-entry.js:22330:17)
+    at async Object.close (file:///data/data/com.termux/files/home/ytify-legacy/node_modules/rollup/dist/es/shared/node-entry.js:23347:13)
+    at async buildEnvironment (file:///data/data/com.termux/files/home/ytify-legacy/node_modules/vite/dist/node/chunks/config.js:33785:15)
+    at async Object.build (file:///data/data/com.termux/files/home/ytify-legacy/node_modules/vite/dist/node/chunks/config.js:34129:19)
+    at async Object.buildApp (file:///data/data/com.termux/files/home/ytify-legacy/node_modules/vite/dist/node/chunks/config.js:34126:153)
+    at async CAC.<anonymous> (file:///data/data/com.termux/files/home/ytify-legacy/node_modules/vite/dist/node/cli.js:629:3)
 ```
 
 ## Translations 🗺️
