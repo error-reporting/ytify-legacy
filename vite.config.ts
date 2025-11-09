@@ -75,7 +75,7 @@ export default defineConfig(({ command }) => ({
         "theme_color": "white",
         "background_color": "white",
         "share_target": {
-          "action": "/",
+          "action": "./",
           "method": "GET",
           "params": {
             "title": "title",
