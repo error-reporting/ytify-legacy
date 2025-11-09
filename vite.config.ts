@@ -70,12 +70,12 @@ export default defineConfig(({ command }) => ({
               }]
           }
         ],
-        "start_url": "/",
+        "start_url": "./",
         "display": "standalone",
         "theme_color": "white",
         "background_color": "white",
         "share_target": {
-          "action": "/",
+          "action": "./",
           "method": "GET",
           "params": {
             "title": "title",
