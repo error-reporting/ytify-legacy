@@ -87,7 +87,7 @@ export default defineConfig(({ command }) => ({
               }]
           }
         ],
-        "start_url": "/",
+        "start_url": "./",
         "display": "standalone",
         "theme_color": "black",
         "background_color": "black",
