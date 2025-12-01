@@ -7,7 +7,7 @@
     }
   ],
   "regions": [
-    "cpt1"
+    "iad1"
   ],
   "outputDirectory": "dist",
   "headers": [
