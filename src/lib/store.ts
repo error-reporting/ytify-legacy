@@ -71,7 +71,7 @@ export const store: {
   api: {
     piped: ['https://pipedapi.kavin.rocks'],
     invidious: ['https://iv.ggtyler.dev'],
-    hyperpipe: ['https://hyperpipeapi.onrender.com'],
+    hyperpipe: JSON.parse['https://hyperpipeapi.onrender.com'],
     index: 0
   },
   loadImage: getSaved('imgLoad') !== 'off',
