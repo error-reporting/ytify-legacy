@@ -16,7 +16,7 @@ export default defineConfig(({ command }) => ({
     Build: JSON.stringify(
       ((today = new Date()) => `v8 ${today.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }).replace(/\//g, '.')}`)(),
     ),
-    Backend: JSON.stringify('https://ytify-zeta.vercel.app'),
+    Backend: JSON.stringify('ytify-legacy.vercel.app'),
   },
   resolve: {
     alias: {
