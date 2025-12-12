@@ -7,7 +7,7 @@
     }
   ],
   "regions": [
-    "bom1"
+    "iad1"
   ],
   "outputDirectory": "dist",
   "headers": [
