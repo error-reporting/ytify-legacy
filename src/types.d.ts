@@ -104,6 +104,7 @@ declare global {
     subtitles: Record<'url' | 'name' | 'label', string>[]
   }
 
+
   type Invidious = {
     adaptiveFormats: Record<'type' | 'bitrate' | 'encoding' | 'clen' | 'url' | 'resolution' | 'quality', string>[],
     recommendedVideos: {
@@ -113,8 +114,8 @@ declare global {
       authorUrl: string,
       videoId: string
     }[],
-    captions: Record<'url' | 'label', string>[],
     title: string,
+    captions: Record<'url' | 'label', string>[],
     author: string,
     lengthSeconds: number,
     authorUrl: string,
