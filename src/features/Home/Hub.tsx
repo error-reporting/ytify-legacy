@@ -1,13 +1,18 @@
 import { For, Show, createSignal } from "solid-js";
-import { getHub, updateSubfeed, updateGallery, updateHubSection } from "@lib/modules/hub";
-import { fetchCollection, getCollection, getTracksMap } from "@lib/utils";
+import { updateSubfeed, updateGallery } from "@lib/modules/hub";
+import { fetchCollection, getCollection, getTracksMap, drawer, setDrawer, generateImageUrl, getThumbIdFromLink } from "@lib/utils";
 import ListItem from "@components/ListItem";
 import StreamItem from "@components/StreamItem";
-import { generateImageUrl, getThumbIdFromLink } from "@lib/utils";
-import { setListStore, setNavStore } from "@lib/stores";
+import { setListStore, setNavStore, t } from "@lib/stores";
 
 export default function() {
-  const [hub, setHub] = createSignal(getHub());
+  const [subfeed, setSubfeed] = createSignal(drawer.subfeed);
+  const [gallery, setGallery] = createSignal({
+    userArtists: drawer.userArtists,
+    relatedArtists: drawer.relatedArtists,
+    relatedPlaylists: drawer.relatedPlaylists
+  });
+
   const tracksMap = getTracksMap(); // Get all tracks
   // Get the first 5 IDs, then map to items
   const recents = getCollection('history')
@@ -28,8 +33,8 @@ export default function() {
 
   const handleSubfeedRefresh = () => {
     setIsSubfeedLoading(true);
-    updateSubfeed('?preview=1').then(() => {
-      setHub(getHub());
+    updateSubfeed().then(() => {
+      setSubfeed(drawer.subfeed);
       setIsSubfeedLoading(false);
     });
   };
@@ -37,16 +42,24 @@ export default function() {
   const handleGalleryRefresh = () => {
     setIsGalleryLoading(true);
     updateGallery().then(() => {
-      setHub(getHub());
+      setGallery({
+        userArtists: drawer.userArtists,
+        relatedArtists: drawer.relatedArtists,
+        relatedPlaylists: drawer.relatedPlaylists
+      });
       setIsGalleryLoading(false);
     });
   };
 
   const handleClearGallery = () => {
-    updateHubSection('relatedArtists', []);
-    updateHubSection('relatedPlaylists', []);
-    updateHubSection('userArtists', []);
-    setHub(getHub());
+    setDrawer('relatedArtists', []);
+    setDrawer('relatedPlaylists', []);
+    setDrawer('userArtists', []);
+    setGallery({
+      userArtists: [],
+      relatedArtists: [],
+      relatedPlaylists: []
+    });
   };
 
   const shuffle = <T,>(array: T[]): T[] => {
@@ -64,24 +77,24 @@ export default function() {
 
 
       <article class="gallery-article">
-        <p>Gallery</p>
+        <p>{t('hub_gallery')}</p>
         <i
-          aria-label="Refresh"
+          aria-label={t('hub_refresh')}
           aria-busy={isGalleryLoading()}
           classList={{ 'ri-refresh-line': true, 'loading': isGalleryLoading() }}
           onclick={handleGalleryRefresh}
         ></i>
         <i
-          aria-label="Clear"
+          aria-label={t('hub_clear')}
           class="ri-delete-bin-2-line"
           onclick={handleClearGallery}
         ></i>
         <div class="userArtists">
           <Show
-            when={hub().userArtists?.length > 0}
-            fallback={'Favorite various music to generate a Gallery.'}
+            when={gallery().userArtists?.length > 0}
+            fallback={t('hub_gallery_fallback')}
           >
-            <For each={shuffle(hub().userArtists.filter(item => item.id && item.name && item.thumbnail))}>
+            <For each={shuffle(gallery().userArtists.filter(item => item.id && item.name && item.thumbnail))}>
               {(item) => (
                 <ListItem
                   stats={''}
@@ -96,9 +109,9 @@ export default function() {
         </div>
         <div class="relatedArtists">
           <Show
-            when={hub().relatedArtists?.length > 0}
+            when={gallery().relatedArtists?.length > 0}
           >
-            <For each={shuffle(hub().relatedArtists)}>
+            <For each={shuffle(gallery().relatedArtists)}>
               {(item) => (
                 <ListItem
                   stats={''}
@@ -114,9 +127,9 @@ export default function() {
 
         <div class="relatedPlaylists">
           <Show
-            when={hub().relatedPlaylists?.length > 0}
+            when={gallery().relatedPlaylists?.length > 0}
           >
-            <For each={shuffle(hub().relatedPlaylists)}>
+            <For each={shuffle(gallery().relatedPlaylists)}>
               {(item) => (
                 <ListItem
                   stats={''}
@@ -133,29 +146,28 @@ export default function() {
       </article>
 
       <article class="subfeed">
-        <p>Sub Feed</p>
+        <p>{t('hub_subfeed')}</p>
         <i
-          aria-label="Refresh"
+          aria-label={t('hub_refresh')}
           aria-busy={isSubfeedLoading()}
           classList={{ 'ri-refresh-line': true, 'loading': isSubfeedLoading() }}
           onclick={handleSubfeedRefresh}></i>
         <i
-          aria-label="Show All"
+          aria-label={t('hub_show_all')}
           class="ri-arrow-right-s-line" onclick={() => {
-            updateSubfeed();
-            const subfeedItems = getHub().subfeed || [];
+            const subfeedItems = drawer.subfeed || [];
             setListStore({
-              name: 'Sub Feed',
+              name: t('hub_subfeed'),
               list: subfeedItems as CollectionItem[],
             });
             setNavStore('list', 'state', true);
           }}></i>
         <div>
           <Show
-            when={hub().subfeed?.length > 0}
-            fallback={'Subscribe to YouTube Channels, to get recently released videos here.'}
+            when={subfeed()?.length > 0}
+            fallback={t('hub_subfeed_fallback')}
           >
-            <For each={hub().subfeed.slice(0, 5)}>
+            <For each={subfeed().slice(0, 5)}>
               {(item) => (
                 <StreamItem
                   id={item.id}
@@ -164,7 +176,7 @@ export default function() {
                   duration={item.duration}
                   authorId={item.authorId}
                   context={{
-                    id: 'Sub Feed',
+                    id: t('hub_subfeed'),
                     src: 'hub'
                   }}
                 />
@@ -176,14 +188,14 @@ export default function() {
 
 
       <article>
-        <p>Frequently Played</p>
+        <p>{t('hub_frequently_played')}</p>
         <i
-          aria-label="Show All"
+          aria-label={t('hub_show_all')}
           class="ri-arrow-right-s-line"
           onclick={() => {
             const frequentlyPlayedItems = getFrequentlyPlayedTracks();
             setListStore({
-              name: 'Frequently Played',
+              name: t('hub_frequently_played'),
               list: frequentlyPlayedItems,
             });
             setNavStore('list', 'state', true);
@@ -192,7 +204,7 @@ export default function() {
         <div>
           <Show
             when={getFrequentlyPlayedTracks(5).length > 0}
-            fallback={'Tracks you play often will show up here.'}
+            fallback={t('hub_frequently_played_fallback')}
           >
             <For each={getFrequentlyPlayedTracks(5)}>
               {(item) => (
@@ -203,7 +215,7 @@ export default function() {
                   duration={item.duration}
                   authorId={item.authorId}
                   context={{
-                    id: 'Frequently Played',
+                    id: t('hub_frequently_played'),
                     src: 'hub'
                   }}
                 />
@@ -214,9 +226,9 @@ export default function() {
       </article>
 
       <article>
-        <p>Recently Listened To</p>
+        <p>{t('hub_recently_listened')}</p>
         <i
-          aria-label="Show All"
+          aria-label={t('hub_show_all')}
           class="ri-arrow-right-s-line"
           onclick={() => {
             fetchCollection('history');
@@ -225,7 +237,7 @@ export default function() {
         <div>
           <Show
             when={recents.length > 0}
-            fallback={'You have no listening History.'}
+            fallback={t('hub_recently_listened_fallback')}
           >
             <For each={recents.slice(0, 5)}>
               {(item) => (
@@ -236,7 +248,7 @@ export default function() {
                   duration={item.duration}
                   authorId={item.authorId}
                   context={{
-                    id: 'Recently Played',
+                    id: t('hub_recently_listened'),
                     src: 'hub'
                   }}
                 />
@@ -247,14 +259,14 @@ export default function() {
       </article>
 
       <article>
-        <p>Discovery</p>
+        <p>{t('hub_discovery')}</p>
         <i
-          aria-label="Show All"
+          aria-label={t('hub_show_all')}
           class="ri-arrow-right-s-line"
           onclick={() => {
-            const discoveryItems = getHub().discovery || [];
+            const discoveryItems = drawer.discovery || [];
             setListStore({
-              name: 'Discovery',
+              name: t('hub_discovery'),
               list: discoveryItems as CollectionItem[],
             });
             setNavStore('list', 'state', true);
@@ -262,10 +274,10 @@ export default function() {
         ></i>
         <div>
           <Show
-            when={!!hub().discovery?.length}
-            fallback={'Discoveries related to what you listen to will show up here.'}
+            when={!!drawer.discovery?.length}
+            fallback={t('hub_discovery_fallback')}
           >
-            <For each={hub().discovery?.slice(0, 5)}>
+            <For each={drawer.discovery?.slice(0, 5)}>
               {(item) => (
                 <StreamItem
                   id={item.id}
@@ -274,7 +286,7 @@ export default function() {
                   duration={item.duration}
                   authorId={item.authorId}
                   context={{
-                    id: 'Discover',
+                    id: t('hub_discovery'),
                     src: 'hub'
                   }}
                 />

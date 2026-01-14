@@ -4,7 +4,8 @@ import { addToCollection, config, cssVar, player, themer } from "@lib/utils";
 import { navStore, params, updateParam } from "./navigation";
 import { addToQueue, queueStore, setQueueStore } from "./queue";
 import audioErrorHandler from "@lib/modules/audioErrorHandler";
-import { setStore } from "./app";
+import { setStore, store } from "./app";
+import getStreamData from "../modules/getStreamData";
 
 const blankImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
 
@@ -43,7 +44,7 @@ const createInitialState = (): PlayerStore => ({
   fullDuration: 0,
   playbackRate: 1.0,
   loop: false,
-  volume: 1.0,
+  volume: parseFloat(config.volume) / 100,
   stream: {
     title: '',
     author: '',
@@ -95,6 +96,8 @@ createRoot(() => {
   let historyID: string | undefined = '';
   let historyTimeoutId = 0;
 
+  playerStore.audio.volume = playerStore.volume;
+
   playerStore.audio.onended = () => {
     if (queueStore.list.length)
       playNext();
@@ -113,7 +116,7 @@ createRoot(() => {
       historyTimeoutId = window.setTimeout(() => {
         if (historyID === id) {
           if (
-            config.enqueueRelatedStreams
+            config.similarContent
             && playerStore.isMusic
           )
             getRecommendations();
@@ -201,19 +204,19 @@ createRoot(() => {
   }
 
   playerStore.audio.oncanplaythrough = async function() {
-    const nextItem = config.prefetch && queueStore.list[0]?.id;
+    const nextItem = config.queuePrefetch && queueStore.list[0]?.id;
 
     if (!nextItem) return;
 
-    const data = await import('../modules/getStreamData').then(mod => mod.default(nextItem, true));
+    const data = await getStreamData(nextItem, true);
     const prefetchRef = new Audio();
     prefetchRef.onerror = () => audioErrorHandler(prefetchRef, nextItem);
-    if ('audioStreams' in data)
+    if (data && 'adaptiveFormats' in data)
       import('../modules/setAudioStreams')
         .then(mod => mod.default(
-          data.audioStreams
-            .sort((a: { bitrate: string }, b: { bitrate: string }) => (parseInt(a.bitrate) - parseInt(b.bitrate))
-            ),
+          data.adaptiveFormats
+            .filter(f => f.type.startsWith('audio'))
+            .sort((a, b) => (parseInt(a.bitrate) - parseInt(b.bitrate))),
           prefetchRef
         ));
   }
@@ -226,7 +229,7 @@ async function getRecommendations() {
 
   const title = encodeURIComponent(playerStore.stream.title);
   const artist = encodeURIComponent(playerStore.stream.author?.slice(0, -8) ?? '');
-  fetch(`${Backend}/api/tracks?title=${title}&artist=${artist}&limit=10`)
+  fetch(`${store.api}/api/tracks?title=${title}&artist=${artist}&limit=10`)
     .then(res => res.json())
     .then(addToQueue)
     .catch(e => setStore('snackbar', `Could not get recommendations for the track: ${e.message}`));

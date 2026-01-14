@@ -23,6 +23,8 @@ export default function() {
   });
 
   const [isListenLater, setIsListenLater] = createSignal(false);
+  const [isDownloading, setIsDownloading] = createSignal(false);
+
   createEffect(() => {
     const { id } = store.actionsMenu as CollectionItem;
     if (id)
@@ -34,7 +36,7 @@ export default function() {
     <dialog
       id="actionsMenu"
       ref={dialog}
-      onclick={closeDialog}
+      onclick={() => !isDownloading() && closeDialog()}
     >
       <StreamItem
         id={store.actionsMenu?.id || ''}
@@ -53,7 +55,7 @@ export default function() {
         <li class="clxnShelf" tabindex="-1">
           <LikeButton />
           <i
-            aria-label='Listen Later'
+            aria-label={t('library_listen_later')}
             class={`ri-calendar-schedule-${isListenLater() ? 'fill' : 'line'}`}
             onclick={() => {
               const { actionsMenu } = store;
@@ -67,7 +69,7 @@ export default function() {
               }
             }}
           ></i>
-          <i aria-label="Add to Collection">
+          <i aria-label={t('collection_selector_add_to')}>
             <CollectionSelector close={closeDialog} data={[store.actionsMenu as CollectionItem]} />
           </i>
         </li>
@@ -75,17 +77,17 @@ export default function() {
         <li tabindex="0" onclick={() => {
           const { actionsMenu } = store;
           if (actionsMenu)
-            addToQueue([actionsMenu], { prepend: true });
+            addToQueue([actionsMenu], { prepend: true, ignoreConfig: true });
 
           closeDialog();
         }}>
-          <i class="ri-skip-forward-line"></i>{t('actions_menu_play_next')}
+          <i class="ri-skip-forward-line"></i>{t('player_play_next')}
         </li>
 
         <li tabindex="1" onclick={() => {
           const { actionsMenu } = store;
           if (actionsMenu)
-            addToQueue([actionsMenu]);
+            addToQueue([actionsMenu], { ignoreConfig: true });
           closeDialog();
         }}>
           <i class="ri-list-check-2"></i>{t('actions_menu_enqueue')}
@@ -103,19 +105,25 @@ export default function() {
 
 
 
-        <li tabindex="4" onclick={() => {
+        <li tabindex="4" onclick={async () => {
+          if (isDownloading()) return;
+          
           const id = store?.actionsMenu?.id;
-
-
           if (!id) {
-            setStore('snackbar', 'id not found');
+            setStore('snackbar', t('actions_menu_id_not_found'));
             return;
           }
-          getDownloadLink(id);
-          closeDialog();
+          
+          setIsDownloading(true);
+          try {
+            await getDownloadLink(id);
+          } finally {
+            setIsDownloading(false);
+            closeDialog();
+          }
         }}>
-          <i class="ri-download-2-fill"></i>
-          {t('actions_menu_download')}
+          <i class={isDownloading() ? "ri-loader-3-line" : "ri-download-2-fill"}></i>
+          {t(isDownloading() ? 'actions_menu_downloading' : 'actions_menu_download')}
         </li>
 
         <li tabindex="5" onclick={() => {
@@ -149,7 +157,7 @@ export default function() {
             }
             closeDialog();
           }}>
-            <i class="ri-album-fill"></i>View Album
+            <i class="ri-album-fill"></i>{t('actions_menu_view_album')}
           </li>
 
         </Show>
@@ -182,6 +190,34 @@ export default function() {
         }}>
           <i class="ri-braces-line"></i>{t('actions_menu_debug_info')}
         </li>
+
+
+        <li tabindex="8" onclick={() => {
+          const id = store.actionsMenu?.id;
+          if (id) {
+            const shareUrl = location.origin + '/s/' + id;
+            if (navigator.share) {
+              navigator.share({
+                title: store.actionsMenu?.title || 'Shared Link',
+                url: shareUrl
+              }).catch(console.error);
+            } else {
+              navigator.clipboard.writeText(shareUrl);
+              setStore('snackbar', 'Link copied to clipboard');
+            }
+          }
+          closeDialog();
+        }}>
+          <i class="ri-link"></i>{t('actions_menu_share')}
+        </li>
+
+
+        <li tabindex="9" onclick={() => {
+          open('https://youtu.be/' + store.actionsMenu?.id);
+        }}>
+          <i class="ri-youtube-fill"></i>{t('actions_menu_yt_link')}
+        </li>
+
       </ul >
     </dialog >
   );

@@ -5,19 +5,17 @@ const storeInit: {
   invidious: string[],
   index: number
   useSaavn: boolean,
-  linkHost: string,
-  downloadFormat: 'opus' | 'wav' | 'mp3' | 'ogg',
+  api: string,
   updater?: () => void,
-  actionsMenu?: CollectionItem & { albumId?: string },
+  actionsMenu?: CollectionItem,
   snackbar?: string,
   syncState?: SyncState,
   homeView: '' | 'Hub' | 'Library' | 'Search',
 } = {
   invidious: [],
   index: 0,
+  api: Backend[Math.floor(Math.random() * Backend.length)],
   useSaavn: true,
-  linkHost: config.linkHost || location.origin,
-  downloadFormat: config.dlFormat,
   homeView: config.home as "" | "Hub" | "Library" | "Search",
 };
 

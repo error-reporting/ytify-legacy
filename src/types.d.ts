@@ -9,26 +9,27 @@ declare global {
   type SyncState = 'synced' | 'syncing' | 'dirty' | 'error';
 
   type Features = 'home' | 'player' | 'list' | 'settings' | 'queue' | 'updater';
-  type Context = 'link' | 'search' | 'hub' | 'playlists' | 'collection' | 'channels' | 'queue';
+  type Context = 'link' | 'search' | 'hub' | 'playlists' | 'collection' | 'channels' | 'queue' | 'standby';
 
   type StreamItem = {
     url: string,
     type: string,
+    title: string,
+    duration: number,
+    uploaderName: string,
+    uploaderUrl: string,
+  } & Partial<{
     name: string,
     views: number,
-    title: string,
     videos: number,
     uploaded: number,
-    duration: number,
     isShort?: boolean,
     thumbnail: string,
     subscribers: number,
     description: string,
-    uploaderUrl: string,
     thumbnailUrl: string,
     playlistType: string,
     uploadedDate: string,
-    uploaderName: string,
     uploaderAvatar: string,
     /* invidious fields */
     lengthSeconds: number,
@@ -38,13 +39,13 @@ declare global {
     authorUrl: string,
     videoId: string,
     author: string
-  }
+  }>
 
   type CollectionItem = {
     id: string,
     title: string,
+    duration: string,
     author?: string,
-    duration: string
     authorId?: string,
     albumId?: string,
     plays?: number
@@ -76,37 +77,17 @@ declare global {
 
 
   type AudioStream = {
-    codec: string,
-    url: string,
-    quality: string,
+    type: string,
     bitrate: string,
-    contentLength: number,
-    mimeType: string
+    encoding: string,
+    clen: string,
+    url: string,
+    resolution: string,
+    quality: string
   }
-
-  type Piped = {
-    instance: string,
-    title: string,
-    duration: number,
-    uploader: string,
-    uploaderUrl: string,
-    livestream: boolean,
-    hls: string
-    relatedStreams: {
-      url: string,
-      title: string,
-      uploaderName: string,
-      duration: number,
-      uploaderUrl: string,
-      type: string
-    }[],
-    audioStreams: AudioStream[],
-    subtitles: Record<'url' | 'name' | 'label', string>[]
-  }
-
 
   type Invidious = {
-    adaptiveFormats: Record<'type' | 'bitrate' | 'encoding' | 'clen' | 'url' | 'resolution' | 'quality', string>[],
+    adaptiveFormats: AudioStream[],
     recommendedVideos: {
       title: string,
       author: string,
@@ -115,17 +96,13 @@ declare global {
       videoId: string
     }[],
     title: string,
-    captions: Record<'url' | 'label', string>[],
+    captions: Record<'url' | 'label' | 'language_code', string>[],
     author: string,
     lengthSeconds: number,
-    authorUrl: string,
+    authorId: string,
     liveNow: boolean,
     hlsUrl: string,
     dashUrl: string,
-  }
-
-  interface WindowEventMap {
-    'dbchange': CustomEvent<{ db: Library, change: string }>;
   }
 
   interface YTStreamItem {
@@ -135,7 +112,6 @@ declare global {
     duration: string,
     uploaded?: string,
     authorId?: string,
-    channelUrl?: string,
     views?: string,
     img?: string,
     albumId?: string,
