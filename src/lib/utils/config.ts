@@ -21,19 +21,25 @@ export let config = {
   contextualFill: false,
   queuePrefetch: false,
   authorGrouping: false,
-  home: '',
   searchFilter: 'all',
   volume: '100',
   dbsync: '',
-  sortOrder: 'modified' as 'modified' | 'name' | 'artist' | 'duration'
+  sortBy: 'modified' as 'modified' | 'name' | 'artist' | 'duration',
+  sortOrder: 'desc' as 'asc' | 'desc'
 }
 
 type AppConfig = typeof config;
 
 
 const savedStore = localStorage.getItem('config');
-if (savedStore)
-  config = JSON.parse(savedStore);
+if (savedStore) {
+  const parsed = JSON.parse(savedStore) as Record<string, unknown>;
+  (Object.keys(config) as (keyof AppConfig)[]).forEach(key => {
+    if (parsed[key] !== undefined) {
+      (config as Record<keyof AppConfig, unknown>)[key] = parsed[key];
+    }
+  });
+}
 
 
 export function setConfig<K extends
@@ -47,16 +53,19 @@ export function setConfig<K extends
 
 export let drawer = {
   recentSearches: [] as string[],
-  lastUsedQueueAction: '',
-  discovery: [] as (CollectionItem & { frequency: number })[],
-  userArtists: [] as Channel[],
-  relatedPlaylists: [] as Playlist[],
-  relatedArtists: [] as Channel[],
-  subfeed: [] as CollectionItem[],
+  discovery: [] as (YTItem & { frequency: number })[],
+  lastMainFeature: 'search' as 'search' | 'library',
+  libraryPlays: {} as Record<string, number>,
 }
 const savedDrawer = localStorage.getItem('drawer');
-if (savedDrawer)
-  drawer = JSON.parse(savedDrawer);
+if (savedDrawer) {
+  const parsed = JSON.parse(savedDrawer) as Record<string, unknown>;
+  (Object.keys(drawer) as (keyof AppDrawer)[]).forEach(key => {
+    if (parsed[key] !== undefined) {
+      (drawer as Record<keyof AppDrawer, unknown>)[key] = parsed[key];
+    }
+  });
+}
 
 type AppDrawer = typeof drawer;
 
