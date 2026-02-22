@@ -23,19 +23,19 @@ export default defineConfig(({ command }) => ({
         "description": "32kb/s to 128kb/s youtube audio streaming website. Copy a youtube video link and listen to it as an audio totally free.",
         "icons": [
           {
-            "src": "./logo192.png",
+            "src": "./public/logo192.png",
             "type": "image/png",
             "sizes": "192x192",
             "purpose": "any maskable"
           },
           {
-            "src": "./logo512.png",
+            "src": "./public/logo512.png",
             "type": "image/png",
             "sizes": "512x512",
             "purpose": "any maskable"
           },
           {
-            "src": "./logo512.png",
+            "src": "./public/logo512.png",
             "type": "image/png",
             "sizes": "44x44",
             "purpose": "any"
@@ -47,7 +47,7 @@ export default defineConfig(({ command }) => ({
             "url": "./list?collection=history",
             "icons": [
               {
-                "src": "./memories-fill.png",
+                "src": "./public/memories-fill.png",
                 "sizes": "192x192",
               }]
           },
@@ -56,7 +56,7 @@ export default defineConfig(({ command }) => ({
             "url": "./list?collection=favorites",
             "icons": [
               {
-                "src": "./heart-fill.png",
+                "src": "./public/heart-fill.png",
                 "sizes": "192x192",
               }]
           },
@@ -65,7 +65,7 @@ export default defineConfig(({ command }) => ({
             "url": "./list?collection=listenLater",
             "icons": [
               {
-                "src": "./calendar-schedule-fill.png",
+                "src": "./public/calendar-schedule-fill.png",
                 "sizes": "192x192",
               }]
           }
