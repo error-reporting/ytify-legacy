@@ -1,6 +1,6 @@
 import { LikeButton, PlayButton, PlayNextButton } from "@components/MediaPartials";
-import { params, playerStore, playPrev, queueStore, setPlayerStore, updateParam, t } from "@lib/stores";
-import { convertSStoHHMMSS, setConfig } from "@lib/utils";
+import { params, playerStore, playPrev, queueStore, setPlayerStore, updateParam, t } from "@stores";
+import { convertSStoHHMMSS, setConfig } from "@utils";
 import { Accessor, createSignal, onMount, Setter, Show } from "solid-js";
 
 export default function(_: {
@@ -19,14 +19,8 @@ export default function(_: {
   })
 
   function updatePositionState() {
-    const { audio } = playerStore;
-    const msn = 'mediaSession' in navigator;
-    if (msn && 'setPositionState' in navigator.mediaSession)
-      navigator.mediaSession.setPositionState({
-        duration: audio.duration || 0,
-        playbackRate: audio.playbackRate || 1,
-        position: Math.floor(audio.currentTime || 0),
-      });
+    if ('mediaSession' in navigator)
+      import('@modules/mediaSession').then(m => m.updateMediaSessionPosition());
   }
 
   return (

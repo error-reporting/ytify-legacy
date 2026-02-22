@@ -1,11 +1,11 @@
 import { Accessor, Show, createSignal } from 'solid-js';
 import './StreamItem.css';
-import { config, hostResolver, player, removeFromCollection, getCollectionItems } from '@lib/utils';
-import { generateImageUrl } from '@lib/utils/image';
-import { listStore, setNavStore, setPlayerStore, setStore, store, setQueueStore, navStore, playerStore } from '@lib/stores';
+import { config, hostResolver, player, removeFromCollection, getCollectionItems, generateImageUrl } from '@utils';
+import { setStore, store, setQueueStore, listStore, navStore, setNavStore, playerStore, setPlayerStore } from '@stores';
 
 export default function(data: YTItem & {
   draggable?: boolean,
+  inQueue?: boolean,
   context?: {
     src: Context,
     id: string
@@ -143,10 +143,9 @@ export default function(data: YTItem & {
           player(data.id);
 
 
-          if (data.context?.src === 'queue') {
-            const indexToRemove = parseInt(data.context.id, 10);
+          if (data.inQueue) {
             setQueueStore('list', (list) =>
-              list.filter((_, idx) => idx !== indexToRemove)
+              list.filter((item) => item.id !== data.id)
             );
           }
         }
@@ -157,6 +156,7 @@ export default function(data: YTItem & {
             author: data.author,
             duration: data.duration,
             authorId: data.authorId,
+            context: data.context
           });
 
 
@@ -193,7 +193,7 @@ export default function(data: YTItem & {
       <Show when={data.draggable}>
         <i aria-label="Drag" class="ri-draggable"></i>
       </Show>
-      <Show when={!data.draggable && data.context?.src !== 'queue'}>
+      <Show when={!data.draggable && !data.inQueue}>
         <i aria-label="More" class="ri-more-2-fill"></i>
       </Show>
     </a>

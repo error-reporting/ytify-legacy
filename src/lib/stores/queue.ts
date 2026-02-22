@@ -1,5 +1,5 @@
 import { createStore } from "solid-js/store";
-import { config, convertSStoHHMMSS } from "@lib/utils";
+import { config, convertSStoHHMMSS, parseDuration } from "@utils";
 
 export const [queueStore, setQueueStore] = createStore({
   list: [] as TrackItem[],
@@ -7,13 +7,6 @@ export const [queueStore, setQueueStore] = createStore({
   isLoading: false,
 });
 
-export function parseDuration(d: string): number {
-  const parts = d.split(':').map(Number);
-  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-  if (parts.length === 2) return parts[0] * 60 + parts[1];
-  if (parts.length === 1) return parts[0] * 60;
-  return 0;
-}
 
 export function filterItemsByConfig(items: TrackItem[], options: { ignoreList?: TrackItem[], ignoreConfig?: boolean } = {}): TrackItem[] {
   if (options.ignoreConfig) return items;
@@ -37,9 +30,11 @@ export function filterItemsByConfig(items: TrackItem[], options: { ignoreList?: 
 }
 
 export function addToQueue(items: TrackItem[], options: { replace?: boolean, prepend?: boolean, ignoreConfig?: boolean } = {}) {
-  let itemsToAdd = (config.allowDuplicates || options.replace || options.ignoreConfig)
-    ? items
-    : items.filter(item => !queueStore.list.some(existingItem => existingItem.id === item.id));
+  let itemsToAdd = items;
+
+  if (!config.allowDuplicates && !options.replace && !options.ignoreConfig) {
+    itemsToAdd = items.filter(item => !queueStore.list.some(existingItem => existingItem.id === item.id));
+  }
 
   if (config.durationFilter && !options.ignoreConfig) {
     const limitInSeconds = parseDuration(config.durationFilter);

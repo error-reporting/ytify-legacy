@@ -1,5 +1,5 @@
 import { For, Show } from 'solid-js';
-import { searchStore } from '@lib/stores';
+import { searchStore } from '@stores';
 import ListItem from '@components/ListItem';
 import StreamItem from '@components/StreamItem';
 
@@ -18,10 +18,12 @@ export default function SearchResults() {
             fallback={<ListItem {...item as YTListItem}
             />}>
             <StreamItem
-              {...item as YTItem}
-              context={{
-                src: 'search',
-                id: searchStore.query
+              {...{
+                ...item as YTItem,
+                context: {
+                  src: 'search',
+                  id: searchStore.query
+                }
               }}
             />
           </Show>

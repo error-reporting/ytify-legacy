@@ -1,14 +1,15 @@
-import { navStore, setNavStore, setStore, t, updateParam } from '@lib/stores';
-import { listStore, setListStore } from '@lib/stores';
-import { config, drawer, setDrawer } from '@lib/utils/config';
+import { setStore, t, listStore, setListStore, navStore, setNavStore, updateParam } from '@stores';
+import { config, drawer, setDrawer, parseDuration } from '@utils';
 
-const syncLibrary = (action: 'add' | 'remove' | 'schedule', id?: string) => {
-  if (!config.dbsync) return;
-  import('@lib/modules/cloudSync').then(m => {
-    if (action === 'add' && id) m.addDirtyTrack(id);
-    else if (action === 'remove' && id) m.removeDirtyTrack(id);
-    else if (action === 'schedule') m.scheduleSync();
-  });
+export const syncLibrary = (action: 'add' | 'remove' | 'schedule' | 'init', id?: string) => {
+  if (config.dbsync)
+    import('@modules/cloudSync')
+      .then(m => {
+        if (action === 'add' && id) m.addDirtyTrack(id);
+        else if (action === 'remove' && id) m.removeDirtyTrack(id);
+        else if (action === 'schedule') m.scheduleSync();
+        else if (action === 'init') m.runSync(config.dbsync);
+      });
 };
 
 
@@ -21,7 +22,7 @@ export const getMeta = (): Meta => {
   }
 
   const newMeta: Meta = { version: 5, tracks: 0 };
-  const timestamp = Date.now();
+  const timestamp = 0;
 
   const tracks = getTracksMap();
   if (Object.keys(tracks).length > 0) {
@@ -81,7 +82,10 @@ export const getLibraryAlbums = (): LibraryAlbums => JSON.parse(localStorage.get
 export function getCollectionItems(collectionId: string): TrackItem[] {
   const collectionIds = getCollection(collectionId);
   const tracksMap = getTracksMap();
-  return collectionIds.map((id: string) => tracksMap[id]).filter(Boolean) as TrackItem[];
+  return collectionIds.map((id: string) => ({
+    ...tracksMap[id],
+    context: { src: 'collection' as const, id: collectionId }
+  })).filter(item => item.id) as TrackItem[];
 }
 
 export function saveTracksMap(tracks: Collection) {
@@ -260,6 +264,16 @@ export function renameCollection(oldName: string, newName: string) {
   metaUpdater(newName);
 }
 
+export function rehydrateStores() {
+  if (listStore.type === 'collection' && listStore.id) {
+    fetchCollection(listStore.id);
+  }
+
+  if (navStore.library.state) {
+    setNavStore('library', 'state', false);
+    setTimeout(() => setNavStore('library', 'state', true), 10);
+  }
+}
 
 export async function fetchCollection(
   id: string | null,
@@ -349,7 +363,11 @@ function getLocalCollection(
 
   if (usePagination) {
     let loadedCount = 20;
-    setListStore('list', sortedIds.slice(0, loadedCount).map(id => ({ ...tracks[id], type: 'video' as const })));
+    setListStore('list', sortedIds.slice(0, loadedCount).map(id => ({ 
+      ...tracks[id], 
+      type: 'video' as const,
+      context: { src: 'collection' as const, id: collection }
+    })));
 
     const observerCallback = () => {
       if (loadedCount >= sortedIds.length) return 0;
@@ -357,14 +375,22 @@ function getLocalCollection(
       const nextBatch = sortedIds.slice(loadedCount, loadedCount + 20);
       loadedCount += 20;
 
-      setListStore('list', (l) => [...l, ...nextBatch.map(id => ({ ...tracks[id], type: 'video' as const }))]);
+      setListStore('list', (l) => [...l, ...nextBatch.map(id => ({ 
+        ...tracks[id], 
+        type: 'video' as const,
+        context: { src: 'collection' as const, id: collection }
+      }))]);
       return sortedIds.length - loadedCount;
     };
 
     setTimeout(() => setObserver(observerCallback), 100);
 
   } else {
-    setListStore('list', sortedIds.map(id => ({ ...tracks[id], type: 'video' as const })));
+    setListStore('list', sortedIds.map(id => ({ 
+      ...tracks[id], 
+      type: 'video' as const,
+      context: { src: 'collection' as const, id: collection }
+    })));
   }
 
   setListStore('id', decodeURI(collection));
@@ -410,12 +436,6 @@ export function sortCollection(list: TrackItem[], sortBy: SortBy, sortOrder: 'as
         result = (a.author || '').localeCompare(b.author || '');
         break;
       case 'duration':
-        const parseDuration = (d: string) => {
-          const parts = d.split(':').map(Number);
-          if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2];
-          if (parts.length === 2) return parts[0] * 60 + parts[1];
-          return 0;
-        };
         result = parseDuration(a.duration) - parseDuration(b.duration);
         break;
     }
