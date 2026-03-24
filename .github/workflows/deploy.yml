@@ -35,7 +35,9 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: lts/*
-          cache: 'npm'
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+         cache: 'npm'
       - name: Install dependencies
         run: npm ci 
       - name: Get Repo Name
@@ -46,13 +48,16 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_BASE_PATH: /${{ env.REPOSITORY_NAME }}/
+         VITE_BASE_PATH: /${{ env.REPOSITORY_NAME }}/
       - name: Setup Pages
-        uses: actions/configure-pages@v5
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
           path: './dist'
       - name: Deploy to GitHub Pages
         id: deployment
+        env:
+          FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
         uses: actions/deploy-pages@v4.0.5
