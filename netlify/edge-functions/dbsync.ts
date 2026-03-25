@@ -18,7 +18,7 @@ export default async (req: Request, context: Context) => {
 
     for await (const blob of blobs) {
       const timestamp = await hashStore.get(blob.key);
-      const oldDate = parseInt(timestamp);
+      const oldDate = parseInt(timestamp).toString();
       const expired = (now - oldDate) > oneWeek;
 
       if (expired) {
