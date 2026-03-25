@@ -1,4 +1,3 @@
-
 import { getStore } from "@netlify/blobs";
 import type { Config, Context } from "@netlify/edge-functions";
 
@@ -18,12 +17,12 @@ export default async (req: Request, context: Context) => {
 
     for await (const blob of blobs) {
       const timestamp = await hashStore.get(blob.key);
-      const oldDate = parseInt(timestamp.toString());
+      const oldDate = parseInt(timestamp);
       const expired = (now - oldDate) > oneWeek;
 
       if (expired) {
         await hashStore.delete(blob.key);
-        await blobStore.delete(timestamp.toString());
+        await blobStore.delete(timestamp);
       }
     }
 
@@ -31,6 +30,7 @@ export default async (req: Request, context: Context) => {
     const timestamp = Date.now().toString();
     await hashStore.set(hash, timestamp);
     await blobStore.setJSON(timestamp, data);
+
     return new Response(null, { status: 204 });
 
   } else {
@@ -38,7 +38,7 @@ export default async (req: Request, context: Context) => {
     const timestamp = await hashStore.get(hash);
     let data = null;
     if (timestamp) {
-      await data = blobStore.get(timestamp);
+      data = await blobStore.get(timestamp);
       if (data)
         return new Response(data, { headers: { "Content-Type": "application/json" } });
     }
