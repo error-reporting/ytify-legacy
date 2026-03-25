@@ -21,7 +21,7 @@ export default async function() {
       store.api.status = 'I';
     }
 
-  } else await fetch('https://raw.githubusercontent.com/n-ce/Uma/main/dynamic_instances.json')
+  } else await fetch('https://raw.githubusercontent.com/error-reporting/Uma/v1/dynamic_instances.json')
     .then(res => res.json())
     .then(data => {
       document.querySelector('samp')!.textContent = {
