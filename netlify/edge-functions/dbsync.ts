@@ -38,7 +38,7 @@ export default async (req: Request, context: Context) => {
     const timestamp = await hashStore.get(hash);
     let data = null;
     if (timestamp) {
-      let data = await blobStore.get(timestamp);
+      await data = blobStore.get(timestamp);
       if (data)
         return new Response(data, { headers: { "Content-Type": "application/json" } });
     }
