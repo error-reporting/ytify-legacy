@@ -17,7 +17,7 @@ export default async function() {
     store.api.invidious[0] = iv;
     store.player.usePiped = !useInvidious;
 
-  } else await fetch('https://raw.githubusercontent.com/n-ce/Uma/main/dynamic_instances.json')
+  } else await fetch('https://raw.githubusercontent.com/error-reporting/Uma/main/dynamic_instances.json')
     .then(res => res.json())
     .then(data => {
       store.api.piped = data.piped;
