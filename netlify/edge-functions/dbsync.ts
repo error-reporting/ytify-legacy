@@ -23,7 +23,7 @@ export default async (req: Request, context: Context) => {
 
       if (expired) {
         await hashStore.delete(blob.key);
-        await blobStore.delete(timestamp);
+        await blobStore.delete(timestamp.toString());
       }
     }
 
