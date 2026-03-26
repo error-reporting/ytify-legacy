@@ -25,7 +25,7 @@ export default async function() {
       store.api.hyperpipe = data.hyperpipe;
       store.player.hls.api = data.hls;
       store.player.usePiped = data.status === 1;
-      store.player.fallback = location.origin;
+      store.player.fallback = location.origin + location.pathname;
     });
 
 
