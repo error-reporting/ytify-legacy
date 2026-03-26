@@ -22,10 +22,10 @@ export default async function() {
     .then(data => {
       store.api.piped = data.piped;
       store.api.invidious = data.invidious;
-      store.api.hyperpipe = data.hyperpipe;
+      store.api.hyperpipe = data.hyperpipe.split(',');
       store.player.hls.api = data.hls;
       store.player.usePiped = data.status === 1;
-      store.player.fallback = location.pathname;
+      store.player.fallback = location.origin;
     });
 
 
