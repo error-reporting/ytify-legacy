@@ -22,10 +22,11 @@ export default async function() {
       store.api.invidious = ["https://invidious.kemonomimi.nl","https://lekker.gay","https://yt.omada.cafe"];
       store.api.hyperpipe = "https://hyperpipeapi.onrender.com";
       store.player.hls.api = [];
-    if (use_piped) = true {
+    if (use_piped) {
+      const boolean = use_piped;
       store.player.usePiped =  true }
     else
-      store.player.usePiped = false
+    { store.player.usePiped = false } 
       store.player.fallback = location.origin;
   }
 
