@@ -24,7 +24,6 @@ export default async function() {
       store.player.hls.api = [];
       store.player.usePiped = false
       store.player.fallback = location.origin;
-      store.player.proxy = "https://proxy.piped.private.coffee";
   }
 
 
