@@ -22,7 +22,7 @@ export default async function() {
       store.api.invidious = ["https://invidious.kemonomimi.nl","https://lekker.gay","https://yt.omada.cafe"];
       store.api.hyperpipe = "https://hyperpipeapi.onrender.com";
       store.player.hls.api = '';
-      store.player.usePiped = false;
+      store.player.usePiped = false
       store.player.fallback = location.origin;
   }
 
