@@ -24,7 +24,7 @@ export default async function() {
       store.player.hls.api = [];
       store.player.usePiped === 0;
       store.player.fallback = location.origin;
-      store.player.heath = "I"
+      store.player.heath = "I";
   }
 
 
