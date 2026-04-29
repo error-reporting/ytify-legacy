@@ -22,9 +22,9 @@ export default async function() {
     .then(data => {
       store.api.piped = data.piped;
       store.api.invidious = data.invidious;
-      store.api.hyperpipe = data.hyperpipe.split(',');
+      store.api.hyperpipe = data.hyperpipe;
       store.player.hls.api = data.hls;
-      store.player.usePiped = data.status === 1;
+      store.player.usePiped = data.status === 0;
       store.player.fallback = location.origin;
     });
 
