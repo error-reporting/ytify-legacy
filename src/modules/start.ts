@@ -8,7 +8,7 @@ import { fetchCollection } from "../lib/libraryUtils";
 export default async function() {
 
   const custom_instance = getSaved('custom_instance');
-  const use_piped getSaved('use_piped'): boolean;
+  const use_piped getSaved('use_piped');
   if (custom_instance) {
 
     const [pi, iv, useInvidious] = custom_instance.split(',');
