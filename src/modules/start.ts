@@ -18,12 +18,13 @@ export default async function() {
     store.player.usePiped = !useInvidious;
 
   } else  {
-      store.api.piped = data.piped;
-      store.api.invidious = data.invidious;
-      store.api.hyperpipe = data.hyperpipe;
-      store.player.hls.api = data.hls;
-      store.player.usePiped = data.status === 0;
+      store.api.piped = "https://pipedapi.wireway.ch","https://pipedapi.reallyaweso.me","https://api.piped.private.coffee";
+      store.api.invidious = "https://invidious.kemonomimi.nl","https://lekker.gay","https://yt.omada.cafe";
+      store.api.hyperpipe = "https://hyperpipeapi.onrender.com";
+      store.player.hls.api = [];
+      store.player.usePiped = 0;
       store.player.fallback = location.origin;
+      store.player.heath = "I"
   }
 
 
