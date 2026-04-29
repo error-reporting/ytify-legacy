@@ -17,16 +17,14 @@ export default async function() {
     store.api.invidious[0] = iv;
     store.player.usePiped = !useInvidious;
 
-  } else await fetch('https://raw.githubusercontent.com/error-reporting/Uma/v1/dynamic_instances.json')
-    .then(res => res.json())
-    .then(data => {
+  } else  {
       store.api.piped = data.piped;
       store.api.invidious = data.invidious;
       store.api.hyperpipe = data.hyperpipe;
       store.player.hls.api = data.hls;
       store.player.usePiped = data.status === 0;
       store.player.fallback = location.origin;
-    });
+  }
 
 
   if (store.player.hls.on) {
