@@ -23,11 +23,11 @@ export default async function() {
       store.api.hyperpipe = "https://hyperpipeapi.onrender.com";
       store.player.hls.api = [];
     if (use_piped) {
-      const boolean = use_piped;
+      const [boolean] = use_piped;
       store.player.usePiped =  true
       store.player.fallback = location.origin; }
-    else
-    { store.player.usePiped = false  
+    else {
+      store.player.usePiped = false  
       store.player.fallback = location.origin;
   }}
 
