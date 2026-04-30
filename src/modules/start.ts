@@ -26,7 +26,7 @@ export default async function() {
   if (use_piped) {
       
     const [boolean] = use_piped;
-      store.player.usePiped = !use_piped;
+      store.player.usePiped[0] = !use_piped;
       store.player.fallback = location.origin;
   } else {
       store.player.usePiped = true  
