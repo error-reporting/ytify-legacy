@@ -21,17 +21,9 @@ export default async function() {
       store.api.invidious = ["https://invidious.kemonomimi.nl","https://lekker.gay","https://yt.omada.cafe"];
       store.api.hyperpipe = "https://hyperpipeapi.onrender.com";
       store.player.hls.api = [];
-  
-  const use_piped getSaved('use_piped');
-  if (use_piped) {
-      
-    const [boolean] = use_piped;
-      store.player.usePiped[0] = !use_piped;
-      store.player.fallback = location.origin;
-  } else {
       store.player.usePiped = true  
       store.player.fallback = location.origin;
-  }}
+  }
 
 
   if (store.player.hls.on) {
