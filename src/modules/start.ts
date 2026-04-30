@@ -8,7 +8,6 @@ import { fetchCollection } from "../lib/libraryUtils";
 export default async function() {
 
   const custom_instance = getSaved('custom_instance');
-  const use_piped getSaved('use_piped'),
   if (custom_instance) {
 
     const [pi, iv, useInvidious] = custom_instance.split(',');
@@ -22,6 +21,7 @@ export default async function() {
       store.api.invidious = ["https://invidious.kemonomimi.nl","https://lekker.gay","https://yt.omada.cafe"];
       store.api.hyperpipe = "https://hyperpipeapi.onrender.com";
       store.player.hls.api = [];
+    const use_piped getSaved('use_piped');
     if (use_piped) {
       const [boolean] = use_piped;
       store.player.usePiped = !use_piped;
